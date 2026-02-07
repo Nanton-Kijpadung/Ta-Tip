@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Logo from './Logo';
@@ -8,39 +7,41 @@ const JoinRoom: React.FC = () => {
   const [roomId, setRoomId] = useState('');
   
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-slate-50">
-      <div className="w-full max-w-md text-center mb-10">
-        <div className="inline-flex items-center space-x-3">
-          <Logo className="w-16 h-16" />
-          <h1 className="text-4xl font-black text-slate-900 tracking-tight">Ta-Tip</h1>
-        </div>
-        <p className="mt-2 text-lg text-slate-500 font-medium">Participant Portal</p>
-      </div>
-      <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-xl p-8 space-y-8">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-slate-900">Join a Session</h2>
-          <p className="mt-2 text-slate-600">Enter the room code provided by your host.</p>
-        </div>
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <label className="block text-sm font-medium text-slate-700 uppercase tracking-widest text-[10px] font-bold">Room ID</label>
-            <div className="relative">
-              <span className="material-icons-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">meeting_room</span>
-              <input 
-                className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 bg-slate-50 text-slate-900 text-xl font-mono tracking-widest outline-none transition-all" 
-                maxLength={6} 
-                placeholder="4A8B2C" 
-                value={roomId} 
-                onChange={(e) => setRoomId(e.target.value.toUpperCase())} 
-              />
-            </div>
+    <div className="h-screen w-full flex flex-col bg-slate-50 overflow-y-auto custom-scrollbar">
+      <div className="min-h-full flex flex-col items-center justify-center p-6">
+        <div className="w-full max-w-md text-center mb-10 mt-8">
+          <div className="inline-flex items-center space-x-3">
+            <Logo className="w-16 h-16" />
+            <h1 className="text-4xl font-black text-slate-900 tracking-tight">Ta-Tip</h1>
           </div>
-          <button 
-            onClick={() => roomId.length >= 6 && navigate('/participant/tracking')} 
-            className="w-full bg-blue-600 text-white font-bold py-4 px-6 rounded-xl hover:bg-blue-700 transition-colors text-lg shadow-lg shadow-blue-600/20 active:scale-95"
-          >
-            Join Session
-          </button>
+          <p className="mt-2 text-lg text-slate-500 font-medium">Participant Portal</p>
+        </div>
+        <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl shadow-xl p-8 space-y-8 mb-8">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-slate-900">Join a Session</h2>
+            <p className="mt-2 text-slate-600">Enter the room code provided by your host.</p>
+          </div>
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-slate-700 uppercase tracking-widest text-[10px] font-bold">Room ID</label>
+              <div className="relative">
+                <span className="material-icons-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">meeting_room</span>
+                <input 
+                  className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 bg-slate-50 text-slate-900 text-xl font-mono tracking-widest outline-none transition-all" 
+                  maxLength={6} 
+                  placeholder="4A8B2C" 
+                  value={roomId} 
+                  onChange={(e) => setRoomId(e.target.value.toUpperCase())} 
+                />
+              </div>
+            </div>
+            <button 
+              onClick={() => roomId.length >= 6 && navigate('/participant/tracking')} 
+              className="w-full bg-blue-600 text-white font-bold py-4 px-6 rounded-xl hover:bg-blue-700 transition-colors text-lg shadow-lg shadow-blue-600/20 active:scale-95"
+            >
+              Join Session
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -50,7 +51,7 @@ const JoinRoom: React.FC = () => {
 const PermissionModal: React.FC<{ onConfirm: () => void; onCancel: () => void }> = ({ onConfirm, onCancel }) => (
   <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
     <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onCancel}></div>
-    <div className="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden p-8 animate-in fade-in zoom-in duration-200">
+    <div className="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden p-8 animate-in fade-in zoom-in duration-200 max-h-[90vh] overflow-y-auto custom-scrollbar">
       <div className="flex items-center justify-center w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl mb-6 mx-auto">
         <span className="material-icons-outlined text-4xl">security</span>
       </div>
@@ -109,14 +110,12 @@ const TrackingInterface: React.FC = () => {
   };
 
   const handleSignOut = () => {
-    // Stop tracking first
     setIsTracking(false);
-    // Navigate back to login
     navigate('/');
   };
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col bg-slate-50">
+    <div className="relative flex h-screen w-full flex-col bg-slate-50 overflow-y-auto custom-scrollbar">
       {showPermission && <PermissionModal onConfirm={handleConfirmPermission} onCancel={() => setShowPermission(false)} />}
       
       <header className="flex w-full items-center justify-between border-b border-slate-200 bg-white px-6 py-4 shadow-sm sticky top-0 z-30">
@@ -151,7 +150,7 @@ const TrackingInterface: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex flex-col items-center justify-center flex-grow p-4 py-12 text-center">
+      <main className="flex-grow flex flex-col items-center justify-start py-12 px-4 text-center">
         <div className="w-full max-w-xl">
           <div className="flex flex-col items-center gap-3 mb-10">
             <div className="bg-blue-600 text-white p-3 rounded-2xl shadow-xl shadow-blue-600/20 mb-2">
@@ -161,7 +160,7 @@ const TrackingInterface: React.FC = () => {
             <p className="text-lg text-slate-500 font-medium">Currently in: <span className="font-bold text-slate-700">Intro to Statistics</span></p>
           </div>
 
-          <div className="mb-10 bg-white rounded-[2rem] border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden p-10 relative">
+          <div className="mb-10 bg-white rounded-[2rem] border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.05)] overflow-hidden p-8 sm:p-10 relative">
             {isTracking && (
               <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1 bg-red-50 text-red-600 rounded-full border border-red-100 animate-pulse">
                 <span className="h-2 w-2 rounded-full bg-red-600"></span>
@@ -169,8 +168,8 @@ const TrackingInterface: React.FC = () => {
               </div>
             )}
 
-            <div className={`p-10 rounded-full inline-flex items-center justify-center mb-8 transition-all duration-700 ${isTracking ? 'bg-blue-600 text-white shadow-2xl shadow-blue-600/40 rotate-12 scale-110' : 'bg-slate-100 text-slate-300'}`}>
-              <span className="material-icons-outlined text-7xl">
+            <div className={`p-8 sm:p-10 rounded-full inline-flex items-center justify-center mb-8 transition-all duration-700 ${isTracking ? 'bg-blue-600 text-white shadow-2xl shadow-blue-600/40 rotate-12 scale-110' : 'bg-slate-100 text-slate-300'}`}>
+              <span className="material-icons-outlined text-6xl sm:text-7xl">
                 {isTracking ? 'auto_awesome' : 'sensors_off'}
               </span>
             </div>
@@ -186,21 +185,21 @@ const TrackingInterface: React.FC = () => {
 
             <button 
               onClick={toggleTracking} 
-              className={`flex h-18 w-full max-w-sm mx-auto items-center justify-center gap-4 rounded-2xl px-10 text-xl font-bold text-white shadow-2xl transition-all active:scale-[0.97] hover:-translate-y-1 ${isTracking ? 'bg-red-500 shadow-red-500/30 hover:bg-red-600' : 'bg-blue-600 shadow-blue-600/30 hover:bg-blue-700'}`}
+              className={`flex h-16 sm:h-18 w-full max-w-sm mx-auto items-center justify-center gap-4 rounded-2xl px-8 text-lg sm:text-xl font-bold text-white shadow-2xl transition-all active:scale-[0.97] hover:-translate-y-1 ${isTracking ? 'bg-red-500 shadow-red-500/30 hover:bg-red-600' : 'bg-blue-600 shadow-blue-600/30 hover:bg-blue-700'}`}
             >
-              <span className="material-icons-outlined text-3xl">{isTracking ? 'pause_circle' : 'play_arrow'}</span>
+              <span className="material-icons-outlined text-2xl sm:text-3xl">{isTracking ? 'pause_circle' : 'play_arrow'}</span>
               <span>{isTracking ? 'Pause Tracking' : 'Resume Tracking'}</span>
             </button>
           </div>
 
-          <div className="bg-slate-100/50 rounded-2xl p-4 max-w-md mx-auto flex items-center gap-3">
+          <div className="bg-slate-100/50 rounded-2xl p-4 max-w-md mx-auto flex items-center gap-3 mb-10">
              <span className="material-icons-outlined text-slate-400">info</span>
              <p className="text-xs text-slate-500 text-left leading-relaxed">
                Ta-Tip protects your privacy by anonymizing specific content. Only usage patterns and window titles are shared with your instructor.
              </p>
           </div>
 
-          <div className="mt-12">
+          <div className="mb-12">
             <button 
               onClick={() => navigate('/participant/join')} 
               className="group flex mx-auto items-center gap-2 text-slate-400 font-bold hover:text-slate-600 px-4 py-2 rounded-lg transition-all"
@@ -211,10 +210,6 @@ const TrackingInterface: React.FC = () => {
           </div>
         </div>
       </main>
-      
-      <footer className="py-6 text-center text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">
-        Research Session ID: TRK-992-BX
-      </footer>
     </div>
   );
 };
