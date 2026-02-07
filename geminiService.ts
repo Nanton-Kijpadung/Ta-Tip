@@ -1,7 +1,15 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+// Lazy-initialize the AI client to be safer in browser environments
+let aiClient: GoogleGenAI | null = null;
+
+const getAiClient = () => {
+  if (!aiClient) {
+    aiClient = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+  }
+  return aiClient;
+};
 
 export const analyzeFocus = async (data: any) => {
   const prompt = `
@@ -16,6 +24,7 @@ export const analyzeFocus = async (data: any) => {
   `;
 
   try {
+    const ai = getAiClient();
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: prompt,

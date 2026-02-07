@@ -8,6 +8,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <script>
+      // Polyfill for process.env to prevent ReferenceErrors in browser-native ESM
+      window.process = window.process || { env: {} };
+    </script>
     <style>
         body { font-family: 'Inter', sans-serif; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
@@ -26,10 +30,10 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
 <body class="bg-slate-50 text-slate-900 h-screen overflow-hidden">
     <div id="root"></div>
-<script type="module" src="/index.tsx"></script>
+    <!-- Critical: Added script tag to load the application entry point -->
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>
